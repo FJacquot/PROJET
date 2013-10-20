@@ -1,0 +1,57 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html">
+    <h:head>
+        <title>Course Session Inscription</title>
+    </h:head>
+    <h:body>
+        <h:form>
+            
+            <table>
+                <tr>
+                    <td>Firstname</td>
+                    <td>Lastname</td>
+                </tr>
+                
+                <tr>
+                    <td><h:inputText value="#{inscriptionManager.cli.firstname}"/></td>
+                    <td><h:inputText  value="#{inscriptionManager.cli.lastname}"/></td>
+                </tr>
+                
+                <tr>
+                    <td>Address</td>
+                    <td>City</td>
+                    <td>Postcode</td>
+                </tr>
+                
+                <tr>
+                    <td><h:inputText  value="#{inscriptionManager.address}"/></td>
+                    <td><h:inputText  value="#{inscriptionManager.city}"/></td>
+                    <td><h:inputText  value="#{inscriptionManager.postcode}"/></td>
+                </tr>
+                
+                <tr>
+                    <td>Phone</td>
+                    <td>Email</td>
+                </tr>
+                
+                <tr>
+                    <td><h:inputText  value="#{inscriptionManager.cli.phone}"/></td>
+                    <td><h:inputText  value="#{inscriptionManager.cli.email}"/></td>
+                </tr>
+                
+                <tr>
+                    <td>
+                        <h:commandButton value="Inscription" action="inscription"/>
+                    </td>
+                    <td>
+                        <h:button outcome="home" value="Cancel" />
+                    </td>
+                </tr>
+               
+            </table>
+        </h:form>
+    </h:body>
+</html>
+

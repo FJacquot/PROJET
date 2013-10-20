@@ -1,12 +1,82 @@
 <?xml version='1.0' encoding='UTF-8' ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:h="http://java.sun.com/jsf/html">
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core">
     <h:head>
-        <title>Facelet Title</title>
+        <title>Course Session Search</title>
     </h:head>
     <h:body>
-        Hello from Facelets
+            <table>
+                <tr>
+                    <td>Title</td>
+                    <td>City</td>
+                    <td>Date</td>
+                </tr>
+                <tr>
+                    <h:form>
+                        <td>
+                            <h:inputText value="#{courseSessionGenerator.title}" />
+                        </td>
+                        <td>
+                            <h:selectOneMenu id="location" value="#{courseSessionGenerator.location}">
+                                <f:selectItem itemValue="" itemLabel="All cities" />
+                                <f:selectItems value="#{locationManager.citiesList}" var="c" itemValue="#{c.city}" itemLabel="#{c.city}"/>
+                            </h:selectOneMenu>
+                        </td>
+                        <td>
+                            <h:inputText value="#{courseSessionGenerator.start}">
+                                <f:convertDateTime pattern="yyyy-MM-dd" type="date" />
+                            </h:inputText>
+                        </td>
+                        <td>
+                            <h:commandButton value="Search" action="#{courseManager.manage}"/>
+                        </td>
+                    </h:form>
+                </tr>
+            </table>
+        
+        <h:dataTable value="#{courseManager.crssList}" var="crs" rendered="#{!empty courseManager.crssList}">
+            <h:column>
+                <!-- column header -->
+                <f:facet name="header">Title</f:facet>
+                <!-- row record -->
+                #{crs.title}
+            </h:column>
+            <h:column>
+                <!-- column header -->
+                <f:facet name="header">City</f:facet>
+                <!-- row record -->
+                #{crs.location}
+            </h:column>
+            <h:column>
+                <!-- column header -->
+                <f:facet name="header">between</f:facet>
+                <!-- row record -->
+                #{crs.start}
+            </h:column>
+            <h:column>
+                <!-- column header -->
+                <f:facet name="header">and</f:facet>
+                <!-- row record -->
+                #{crs.end}
+            </h:column>
+            <h:column>
+                <!-- column header -->
+                <f:facet name="header">Inscription</f:facet>
+                <!-- row record -->
+                <h:button outcome="inscription" value="GO!" />
+             </h:column>
+            
+            <tr>
+                <td>Title</td>
+                <td>City</td>
+                <td>between</td>
+                <td>and</td>
+            </tr>
+        </h:dataTable>
+        
+        <h:outputText value="No result!" rendered="#{empty courseManager.crssList}"/>        
     </h:body>
 </html>
 
