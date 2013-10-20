@@ -7,12 +7,9 @@
 package com.utbm.lo54.projet.manager;
 
 import com.utbm.lo54.projet.model.CourseSession;
-import com.utbm.lo54.projet.model.Location;
-import com.utbm.lo54.projet.qualifier.LocationQualifier;
 import com.utbm.lo54.projet.qualifier.CourseSessionQualifier;
 import java.io.Serializable;
 import java.util.ArrayList;
-import javax.annotation.PostConstruct;
 import javax.enterprise.context.RequestScoped;
 import javax.enterprise.context.SessionScoped;
 import javax.enterprise.inject.Instance;
@@ -22,13 +19,12 @@ import javax.inject.Named;
  *
  * @author JFWIN7
  */
-@RequestScoped
+@SessionScoped
 @Named
 public class CourseManager implements Serializable {
     @Inject @CourseSessionQualifier Instance<ArrayList<CourseSession>> crss;
     private ArrayList<CourseSession> crssList;
-      
- 
+
     CourseManager(){
     }
         
@@ -47,5 +43,4 @@ public class CourseManager implements Serializable {
     public ArrayList<CourseSession> getCrssList() {
         return this.crssList;
     }
- 
 }

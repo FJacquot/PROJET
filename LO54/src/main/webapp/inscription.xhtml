@@ -1,11 +1,32 @@
 <?xml version='1.0' encoding='UTF-8' ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:h="http://java.sun.com/jsf/html">
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core">
     <h:head>
         <title>Course Session Inscription</title>
     </h:head>
     <h:body>
+        
+        <div style="color:red">
+            <h:messages/>
+        </div> 
+
+        <table>
+           <tr>
+               <td>Title</td>
+               <td>City</td>
+               <td>between</td>
+               <td>and</td>
+           </tr>
+           <tr>
+               <td>#{inscriptionManager.crs.title}</td>
+               <td>#{inscriptionManager.crs.location}</td>
+               <td>#{inscriptionManager.crs.start}</td>
+               <td>#{inscriptionManager.crs.end}</td>
+           </tr>
+       </table>
+
         <h:form>
             
             <table>
@@ -15,20 +36,16 @@
                 </tr>
                 
                 <tr>
-                    <td><h:inputText value="#{inscriptionManager.cli.firstname}"/></td>
-                    <td><h:inputText  value="#{inscriptionManager.cli.lastname}"/></td>
+                    <td><h:inputText value="#{client.firstname}"/></td>
+                    <td><h:inputText  value="#{client.lastname}"/></td>
                 </tr>
                 
                 <tr>
                     <td>Address</td>
-                    <td>City</td>
-                    <td>Postcode</td>
                 </tr>
                 
                 <tr>
-                    <td><h:inputText  value="#{inscriptionManager.address}"/></td>
-                    <td><h:inputText  value="#{inscriptionManager.city}"/></td>
-                    <td><h:inputText  value="#{inscriptionManager.postcode}"/></td>
+                    <td><h:inputText  value="#{client.address}"/></td>
                 </tr>
                 
                 <tr>
@@ -37,15 +54,13 @@
                 </tr>
                 
                 <tr>
-                    <td><h:inputText  value="#{inscriptionManager.cli.phone}"/></td>
-                    <td><h:inputText  value="#{inscriptionManager.cli.email}"/></td>
+                    <td><h:inputText  value="#{client.phone}"/></td>
+                    <td><h:inputText  value="#{client.email}"/></td>
                 </tr>
                 
                 <tr>
                     <td>
-                        <h:commandButton value="Inscription" action="inscription"/>
-                    </td>
-                    <td>
+                        <h:commandButton value="Inscription" action="#{inscriptionManager.inscription}"/>
                         <h:button outcome="home" value="Cancel" />
                     </td>
                 </tr>

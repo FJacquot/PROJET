@@ -16,16 +16,16 @@
                 <tr>
                     <h:form>
                         <td>
-                            <h:inputText value="#{courseSessionGenerator.title}" />
+                            <h:inputText value="#{courseSession.title}" />
                         </td>
                         <td>
-                            <h:selectOneMenu id="location" value="#{courseSessionGenerator.location}">
+                            <h:selectOneMenu id="location" value="#{courseSession.location}">
                                 <f:selectItem itemValue="" itemLabel="All cities" />
                                 <f:selectItems value="#{locationManager.citiesList}" var="c" itemValue="#{c.city}" itemLabel="#{c.city}"/>
                             </h:selectOneMenu>
                         </td>
                         <td>
-                            <h:inputText value="#{courseSessionGenerator.start}">
+                            <h:inputText value="#{courseSession.start}">
                                 <f:convertDateTime pattern="yyyy-MM-dd" type="date" />
                             </h:inputText>
                         </td>
@@ -36,7 +36,8 @@
                 </tr>
             </table>
         
-        <h:dataTable value="#{courseManager.crssList}" var="crs" rendered="#{!empty courseManager.crssList}">
+         <h:form>
+         <h:dataTable value="#{courseManager.crssList}" var="crs" rendered="#{!empty courseManager.crssList}">
             <h:column>
                 <!-- column header -->
                 <f:facet name="header">Title</f:facet>
@@ -65,18 +66,14 @@
                 <!-- column header -->
                 <f:facet name="header">Inscription</f:facet>
                 <!-- row record -->
-                <h:button outcome="inscription" value="GO!" />
+                <h:commandButton action="#{inscriptionManager.submit(crs)}" value="GO!"/>
              </h:column>
-            
-            <tr>
-                <td>Title</td>
-                <td>City</td>
-                <td>between</td>
-                <td>and</td>
-            </tr>
         </h:dataTable>
+        </h:form>
         
-        <h:outputText value="No result!" rendered="#{empty courseManager.crssList}"/>        
+        <h:outputText value="No result!" rendered="#{empty courseManager.crssList}"/>
+        
+         
     </h:body>
 </html>
 

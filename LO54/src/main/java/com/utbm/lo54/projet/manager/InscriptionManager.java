@@ -6,8 +6,14 @@
 
 package com.utbm.lo54.projet.manager;
 
+import com.utbm.lo54.projet.database.dbQuery;
 import com.utbm.lo54.projet.model.Client;
-import javax.enterprise.context.RequestScoped;
+import com.utbm.lo54.projet.model.CourseSession;
+import java.io.Serializable;
+import javax.enterprise.context.SessionScoped;
+import javax.faces.application.FacesMessage;
+import javax.faces.context.FacesContext;
+import javax.inject.Inject;
 import javax.inject.Named;
 
 /**
@@ -15,46 +21,29 @@ import javax.inject.Named;
  * @author JFWIN7
  */
 @Named
-@RequestScoped
-public class InscriptionManager {
-    private Client cli;
-    private int crssId;
-    private String address;
-    private String city;
-    private String postcode;
+@SessionScoped
+public class InscriptionManager implements Serializable {
+    private @Inject Client cli;
+    private CourseSession crs;
+    private static final String INSCRIPTION_URI ="inscription";
    
-    
     InscriptionManager() {
     }
-
-    public void inscription() {
-        
+ 
+    public String submit(CourseSession crs){
+        this.crs = crs;
+        return INSCRIPTION_URI;
     }
-
-    public String getAddress() {
-        return address;
+    
+    public void inscription(){
+        if(cli.getFirstname().isEmpty() ||cli.getLastname().isEmpty() || cli.getAddress().isEmpty() || cli.getPhone().isEmpty() || cli.getEmail().isEmpty()){
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Incorrect form"));
+        }
+        else{
+            new dbQuery().inscription(cli, crs.getId());
+        }
     }
-
-    public void setAddress(String address) {
-        this.address = address;
-    }
-
-    public String getCity() {
-        return city;
-    }
-
-    public void setCity(String city) {
-        this.city = city;
-    }
-
-    public String getPostcode() {
-        return postcode;
-    }
-
-    public void setPostcode(String postcode) {
-        this.postcode = postcode;
-    }
-
+    
     public Client getCli() {
         return cli;
     }
@@ -63,11 +52,12 @@ public class InscriptionManager {
         this.cli = cli;
     }
 
-    public int getCrssId() {
-        return crssId;
+    public CourseSession getCrs() {
+        return crs;
     }
 
-    public void setCrssId(int crssId) {
-        this.crssId = crssId;
+    public void setCrs(CourseSession crs) {
+        this.crs = crs;
     }
+    
 }

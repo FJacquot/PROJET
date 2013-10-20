@@ -8,15 +8,12 @@ package com.utbm.lo54.projet.generator;
 
 import com.utbm.lo54.projet.database.dbQuery;
 import com.utbm.lo54.projet.model.CourseSession;
-import com.utbm.lo54.projet.model.Location;
-import com.utbm.lo54.projet.qualifier.LocationQualifier;
 import com.utbm.lo54.projet.qualifier.CourseSessionQualifier;
-import java.io.Serializable;
 import java.util.Date;
 import java.util.ArrayList;
 import javax.enterprise.context.RequestScoped;
-import javax.enterprise.context.SessionScoped;
 import javax.enterprise.inject.Produces;
+import javax.inject.Inject;
 import javax.inject.Named;
 
 /**
@@ -31,10 +28,11 @@ public class CourseSessionGenerator{
     private String title;
     private String location;
     private Date start;
+    private @Inject CourseSession crs;
     
    
     @Produces @CourseSessionQualifier ArrayList<CourseSession> getCrss(){
-        return new dbQuery().searchCourseSession(this.title, this.location, this.start);
+        return new dbQuery().searchCourseSession(this.crs);
     }
 
     public String getTitle() {

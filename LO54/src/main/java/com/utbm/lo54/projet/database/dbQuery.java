@@ -6,6 +6,7 @@
 
 package com.utbm.lo54.projet.database;
 
+import com.utbm.lo54.projet.model.Client;
 import com.utbm.lo54.projet.model.CourseSession;
 import com.utbm.lo54.projet.model.Location;
 import java.sql.Connection;
@@ -44,7 +45,7 @@ public class dbQuery {
         return con;
     }
     
-    public ArrayList<CourseSession> searchCourseSession(String title, String location, Date start){
+    public ArrayList<CourseSession> searchCourseSession(CourseSession crs){
         ArrayList<CourseSession> crss = new ArrayList<CourseSession>();
         Connection con = this.getConnection();
         if(con != null){
@@ -54,12 +55,12 @@ public class dbQuery {
                 if(st != null){
                     String sQuery = "SELECT CSS.ID, CRS.TITLE, LOC.CITY, CSS.START, CSS.END FROM COURSE_SESSION CSS, COURSE CRS, LOCATION LOC WHERE CSS.COURSE_CODE = CRS.CODE AND CSS.LOCATION_ID = LOC.ID";
 
-                    if(!title.isEmpty())
-                        sQuery += " AND UPPER(CRS.CODE) REGEXP '"+title.toUpperCase()+"' ";
-                    if(!location.isEmpty())
-                        sQuery += " AND UPPER(LOC.CITY) = '"+location.toUpperCase()+"' ";
-                    if(start != null)
-                        sQuery += " AND CSS.START = '"+new SimpleDateFormat("yyyy-MM-dd").format(start)+"' ";
+                    if(!crs.getTitle().isEmpty())
+                        sQuery += " AND UPPER(CRS.TITLE) REGEXP '"+crs.getTitle().toUpperCase()+"' ";
+                    if(!crs.getLocation().isEmpty())
+                        sQuery += " AND UPPER(LOC.CITY) = '"+crs.getLocation().toUpperCase()+"' ";
+                    if(crs.getStart() != null)
+                        sQuery += " AND CSS.START = '"+new SimpleDateFormat("yyyy-MM-dd").format(crs.getStart())+"' ";
                     else
                         sQuery += " AND CSS.START >= '"+new SimpleDateFormat("yyyy-MM-dd").format(new Date())+"' ";
                     
@@ -68,15 +69,17 @@ public class dbQuery {
                     //System.out.println(sQuery);
 
                     ResultSet result = st.executeQuery(sQuery);
+
                     while(result.next()){
-                        CourseSession crs = new CourseSession();
-                        crs.setId(result.getInt("ID"));
-                        crs.setTitle(result.getString("TITLE"));
-                        crs.setEnd(result.getDate("END"));
-                        crs.setStart(result.getDate("START"));
-                        crs.setLocation(result.getString("CITY"));
-                        crss.add(crs);
+                        CourseSession courseSession = new CourseSession();
+                        courseSession.setId(result.getInt("ID"));
+                        courseSession.setTitle(result.getString("TITLE"));
+                        courseSession.setEnd(result.getDate("END"));
+                        courseSession.setStart(result.getDate("START"));
+                        courseSession.setLocation(result.getString("CITY"));
+                        crss.add(courseSession);
                     }
+                    st.close();
                 }
             } catch (SQLException ex) {
                 Logger.getLogger(dbQuery.class.getName()).log(Level.SEVERE, null, ex);
@@ -96,12 +99,14 @@ public class dbQuery {
                     String sQuery = "SELECT * FROM LOCATION";
 
                     ResultSet result = st.executeQuery(sQuery);
+                    
                     while(result.next()){
                         Location city = new Location();
                         city.setId(result.getInt("ID"));
                         city.setCity(result.getString("CITY"));
                         cities.add(city);
                     }
+                    st.close();
                 }
             } catch (SQLException ex) {
                 Logger.getLogger(dbQuery.class.getName()).log(Level.SEVERE, null, ex);
@@ -109,4 +114,24 @@ public class dbQuery {
         }
         return cities;        
     }
+    
+     public void inscription(Client cli, int crssId) {
+        
+        Connection con = this.getConnection();
+       
+        if(con != null){
+            try {          
+                Statement st = con.createStatement();
+                if(st != null){
+                    st.executeUpdate("INSERT INTO CLIENT (LASTNAME, FIRSTNAME, ADDRESS, PHONE, EMAIL, SESSION_ID) VALUES ('"+cli.getLastname()+"', '"+cli.getFirstname()+"', '"+cli.getAddress()+"', '"+cli.getPhone()+"', '"+cli.getEmail()+"', '"+crssId+"')");
+
+                }
+                st.close();
+            } catch (SQLException ex) {
+                Logger.getLogger(dbQuery.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }   
+     }
+
+
 }

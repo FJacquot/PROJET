@@ -7,11 +7,15 @@
 package com.utbm.lo54.projet.model;
 
 import java.sql.Date;
+import javax.enterprise.context.RequestScoped;
+import javax.inject.Named;
 
 /**
  *
  * @author JFWIN7
  */
+@Named
+@RequestScoped
 public class CourseSession {
     private int id;
     private String title;

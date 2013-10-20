@@ -6,14 +6,17 @@
 
 package com.utbm.lo54.projet.model;
 
+
+import javax.enterprise.context.RequestScoped;
 import javax.inject.Named;
 
 /**
  *
  * @author JFWIN7
  */
+@RequestScoped
 @Named
-public class Client {
+public class Client{
     private String firstname;
     private String lastname;
     private String phone;
